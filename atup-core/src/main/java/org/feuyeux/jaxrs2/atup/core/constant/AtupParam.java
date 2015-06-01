@@ -1,5 +1,5 @@
 package org.feuyeux.jaxrs2.atup.core.constant;
-
+//test master2 test2
 public interface AtupParam {
     /*Test Suite*/
     Integer NORMAL_SUITE = 1;
