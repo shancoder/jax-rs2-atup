@@ -1,5 +1,5 @@
 package org.feuyeux.jaxrs2.atup.core.constant;
-
+//test master2
 public interface AtupApi {
     String PROTOCOL = "http://";
     String SERVICE_PORT = "8080";
