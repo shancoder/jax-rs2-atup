@@ -31,6 +31,7 @@ public class AtupDeviceResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public AtupDevice updateDevice(@Context final HttpHeaders headers, final AtupDevice deviceInfo) {
+        log.debug("PUT updateDevice headers = " + headers + " deviceInfo = " + deviceInfo);
         try {
             if (deviceInfo.getUser() == null) {
                 fillUser(headers, deviceInfo);
@@ -43,6 +44,7 @@ public class AtupDeviceResource {
     }
 
     private void fillUser(final HttpHeaders headers, final AtupDevice deviceInfo) {
+        log.debug("do fillUser method!");
         final String userId = headers.getRequestHeader("Atup-User").get(0);
         final AtupUser currentUser = new AtupUser();
         currentUser.setUserId(Integer.valueOf(userId));
@@ -52,6 +54,7 @@ public class AtupDeviceResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public AtupDeviceListInfo getDevicesByUser(@Context final HttpHeaders headers) {
+        log.debug("GET getDevicesByUser headers = " + headers);
         final String userId = headers.getRequestHeader("Atup-User").get(0);
         final List<AtupDevice> devices = service.getDeviceList(Integer.valueOf(userId));
         return new AtupDeviceListInfo(devices);
@@ -61,6 +64,7 @@ public class AtupDeviceResource {
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     public AtupDeviceListInfo getDevices() {
+        log.debug("GET getDevices Path ALL");
         final List<AtupDevice> devices = service.getDeviceList();
         return new AtupDeviceListInfo(devices);
     }
@@ -69,6 +73,7 @@ public class AtupDeviceResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public AtupDevice createDevice(@Context final HttpHeaders headers, final AtupDevice deviceInfo) {
+        log.debug("POST createDevice deviceInfo = " + deviceInfo);
         try {
             fillUser(headers, deviceInfo);
             return service.createDevice(deviceInfo);
@@ -81,6 +86,7 @@ public class AtupDeviceResource {
     @POST
     @Path("status")
     public void detect() throws ExecutionException, InterruptedException {
+        log.debug("POST detect");
         detectService.detect();
     }
 }

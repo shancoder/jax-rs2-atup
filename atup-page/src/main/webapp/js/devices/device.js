@@ -2,6 +2,7 @@ var query = window.location.search.substring(1);
 
 function initial() {
     checkSignIn();
+    window.alert("已经登录成功");
     if (query) {
         jQuery("#deviceIp").val(getValue(query, "deviceIp"));
         jQuery("#deviceName").val(getValue(query, "deviceName"));
