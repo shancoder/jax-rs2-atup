@@ -19,13 +19,14 @@ function renderGetAll(data) {
                 + user.userName + "</span><span style='width:100px;display:inline-block;'>"
                 + user.userRole + "</span><span style='width:100px;display:inline-block;'>"
                 + user.status + "</span>"
-                + "<input type='button' value='DISABLE' onclick='disableUser(" + user.userId + ");'/></div>";
+                + "<input type='button' value='DISABLE' onclick='disableUser(' + user.userId + ');'/></div>";
             jQuery("#usersDiv").append(line);
         });
     }
 }
 
 function disableUser(userId) {
+    window.alert("disableUser userId = " + userId);
     var putData = JSON.stringify({userId: userId, status: 1});
     restSet(ATUP_USER_URI + USER_PATH, PUT_METHOD, putData, loadUsers);
 }

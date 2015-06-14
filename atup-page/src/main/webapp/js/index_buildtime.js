@@ -13,11 +13,11 @@ function loadLinkByRole() {
     } else if (userRole == ROLE_JOB_KILLER) {
 
     } else if (userRole == ROLE_DEVICE_MANAGER) {
-        jQuery('#deviceDiv').append("<a href='devices/device.html'>Manage Device</a><br/>");
+        jQuery('#deviceDiv').append("<a href='../devices/device.html'>Manage Device</a><br/>");
     } else if (userRole == ROLE_USER) {
 
     }
 }
 function markVersion() {
-    jQuery('#buildDiv').html("Build Time: @buildtime@");
+    jQuery('#buildDiv').html("Build Time: "+ "@buildtime@");
 }

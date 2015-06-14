@@ -27,7 +27,7 @@ public class AtupStationResource {
 
     @GET
     public Integer keepALive(@Context HttpServletRequest request) {
-        //log.info("Request host=" + request.getRemoteHost());
+        log.info("Request host=" + request.getRemoteHost());
         if (request != null) {
             log.info("keep-a-live :: Request host =" + request.getRemoteAddr());
         }

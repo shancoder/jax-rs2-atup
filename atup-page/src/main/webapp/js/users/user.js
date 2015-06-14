@@ -6,6 +6,14 @@ function createUser() {
     var postData = JSON.stringify({userName: userName, passWord: hashPassword, userRole: 4, status: 0});
     restSet(ATUP_USER_URI + USER_PATH, POST_METHOD, postData, renderCreate);
 }
+/*POST*/
+function signUp() {
+    var userName = jQuery.trim(jQuery("#userName0").val());
+    var password = jQuery("#password0").val();
+    var hashPassword = md5(password);
+    var postData = JSON.stringify({userName: userName, passWord: hashPassword, userRole: 4, status: 0});
+    restSet(ATUP_USER_URI + SIGNUP_PATH, POST_METHOD, postData, renderSignUp);
+}
 /*PUT*/
 function updateUser() {
     var userName = jQuery.trim(jQuery("#userName").val());
@@ -42,6 +50,16 @@ function renderUpdate(data) {
     usersDiv.append("</span></div>");
 }
 function renderSignIn(data) {
+    if (data.userId != null && data.userName != null && data.userRole != null) {
+        storage.setItem("userId", data.userId);
+        storage.setItem("userName", data.userName);
+        storage.setItem("userRole", data.userRole);
+        window.location.href = "index.html";
+    } else {
+        //TODO
+    }
+}
+function renderSignUp(data) {
     if (data.userId != null && data.userName != null && data.userRole != null) {
         storage.setItem("userId", data.userId);
         storage.setItem("userName", data.userName);

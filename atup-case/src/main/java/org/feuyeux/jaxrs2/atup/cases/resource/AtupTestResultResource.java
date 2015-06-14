@@ -19,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 @Component
 @Path(AtupApi.TEST_RESULT_PATH)
 public class AtupTestResultResource {
+    private final org.apache.logging.log4j.Logger log = org.apache.logging.log4j.LogManager.getLogger(AtupTestCaseResource.class.getName());
     @Autowired
     AtupTestResultService service;
 
@@ -27,6 +28,7 @@ public class AtupTestResultResource {
     @Produces(MediaType.APPLICATION_JSON)
     public AtupTestResultListInfo getResultsByUser(@Context final HttpHeaders headers, @QueryParam("start") final Integer start,
                                                    @QueryParam("size") final Integer size) {
+        log.debug("GET results getResultsByUser start = " + start + " size = " + size);
         final String userId = headers.getRequestHeader("Atup-User").get(0);
         if (start == null || size == null) {
             return new AtupTestResultListInfo(AtupErrorInfo.INVALID_PARAM, AtupErrorCode.INVALID_PARAM);

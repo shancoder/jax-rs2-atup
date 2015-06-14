@@ -8,6 +8,7 @@ var TEST_JOB_PATH = "/testjobs";
 var USER_PATH = "/users";
 var DEVICE_PATH = "/devices";
 var SIGNIN_PATH = "/users/signin";
+var SIGNUP_PATH = "/users/signup";
 
 var NO_RESULT = "There's no result from the server";
 

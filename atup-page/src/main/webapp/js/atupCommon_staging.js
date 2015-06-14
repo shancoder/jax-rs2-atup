@@ -11,7 +11,7 @@
 var ATUP_CASE_HOST = "http://localhost:8080/";
 var ATUP_DEVICE_HOST = "http://localhost:8080/";
 var ATUP_USER_HOST = "http://localhost:8080/";
-var ATUP_PAGE_HOST = "http://localhost/";
+var ATUP_PAGE_HOST = "http://localhost:8080/";
 
 var ATUP_CASE_BASE_URI = 'atup-case/rest-api';
 var ATUP_DEVICE_BASE_URI = 'atup-device/rest-api';

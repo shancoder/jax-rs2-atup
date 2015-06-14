@@ -29,6 +29,27 @@ public class AtupUserResource {
 
     }
 
+    @POST
+    @Path("signup")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public javax.ws.rs.core.Response signUp(final AtupUserInfo userInfo) {
+        log.debug("post signUp userInfo " + userInfo);
+        return signUpUser(userInfo);
+    }
+
+    private Response signUpUser(AtupUserInfo userInfo) {
+        log.debug("do registUser method");
+        try {
+            final AtupUser newUser = service.createUser(userInfo);
+            final AtupUserInfo result = new AtupUserInfo(newUser);
+            return Response.ok().entity(result).build();
+        } catch (final Exception e) {
+            final AtupUserInfo result = new AtupUserInfo(e.getMessage(), AtupErrorCode.PERSIST_ERROR);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(result).build();
+        }
+    }
+
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -54,6 +75,7 @@ public class AtupUserResource {
             final AtupUser user = service.getUser(userId);
             //判断是否管理员，只有admin才有权限创建用户
             if (!user.getUserRole().equals(role) || !userRole.equals(role)) {
+                log.debug("不是管理员，没有创建用户的权限");
                 final AtupUserInfo result = new AtupUserInfo("No permission for this request.", AtupErrorCode.FORBIDDEN_ERROR);
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(result).build();
             } else {
@@ -67,8 +89,10 @@ public class AtupUserResource {
         try {
             final AtupUser newUser = service.createUser(userInfo);
             final AtupUserInfo result = new AtupUserInfo(newUser);
+            log.debug("创建用户成功");
             return Response.ok().entity(result).build();
         } catch (final Exception e) {
+            log.debug("创建用户的过程中出错");
             final AtupUserInfo result = new AtupUserInfo(e.getMessage(), AtupErrorCode.PERSIST_ERROR);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(result).build();
         }
