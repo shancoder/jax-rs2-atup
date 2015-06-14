@@ -10,6 +10,7 @@ import org.feuyeux.jaxrs2.atup.user.service.AtupUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.print.attribute.standard.Media;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -28,10 +29,12 @@ public class AtupUserResource {
 
     }
 
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public javax.ws.rs.core.Response createUser(@Context final HttpHeaders headers, final AtupUserInfo userInfo) {
+        log.debug("post createUser userInfo " + userInfo);
         Response response = checkRole(headers, AtupParam.USER_ADMIN);
         if (response == null) {
             return createUser(userInfo);
@@ -41,6 +44,7 @@ public class AtupUserResource {
     }
 
     public Response checkRole(HttpHeaders headers, Integer role) {
+        log.debug("do checkRole method");
         Integer userId = Integer.valueOf(headers.getRequestHeader(AtupApi.ATUP_USER_HEAD).get(0));
         Integer userRole = Integer.valueOf(headers.getRequestHeader(AtupApi.ATUP_USER_ROLE_HEAD).get(0));
         if (userId == null) {
@@ -48,6 +52,7 @@ public class AtupUserResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(result).build();
         } else {
             final AtupUser user = service.getUser(userId);
+            //判断是否管理员，只有admin才有权限创建用户
             if (!user.getUserRole().equals(role) || !userRole.equals(role)) {
                 final AtupUserInfo result = new AtupUserInfo("No permission for this request.", AtupErrorCode.FORBIDDEN_ERROR);
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(result).build();
@@ -58,6 +63,7 @@ public class AtupUserResource {
     }
 
     private Response createUser(AtupUserInfo userInfo) {
+        log.debug("do createUser method");
         try {
             final AtupUser newUser = service.createUser(userInfo);
             final AtupUserInfo result = new AtupUserInfo(newUser);
@@ -86,6 +92,7 @@ public class AtupUserResource {
     @Path("{user}")
     @Produces(MediaType.APPLICATION_JSON)
     public AtupUserInfo getUser(@PathParam("user") final String userName) {
+        log.debug("get user userName=" + userName);
         final AtupUser user = service.getUser(userName);
         return new AtupUserInfo(user);
     }
@@ -93,6 +100,7 @@ public class AtupUserResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public AtupUserListInfo getUsers() {
+        log.debug("get All User ");
         final List<AtupUserInfo> users = service.getUserList();
         return new AtupUserListInfo(users);
     }
@@ -101,6 +109,7 @@ public class AtupUserResource {
     @Path("signin")
     @Produces(MediaType.APPLICATION_JSON)
     public AtupUserInfo getUser(@QueryParam("user") final String userName, @QueryParam("password") final String password) {
+        log.debug("signin user userName=" + userName + " password=" + password);
         try {
             final AtupUser user = service.getUser(userName.trim());
             final AtupUserInfo result = new AtupUserInfo(user);

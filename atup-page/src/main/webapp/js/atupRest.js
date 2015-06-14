@@ -38,6 +38,7 @@ function restSet(restUrl, httpMethod, entity, callback) {
     rest(restUrl, httpMethod, entity, "application/json", "json", callback);
 }
 function rest(restUrl, httpMethod, entity, contentType, dataType, callback) {
+    window.alert("restUrl " + restUrl + "entity " + entity);
     var resultLine = jQuery('#resultDiv');
     resultLine.html(LOADING);
     var userId = storage.getItem("userId");

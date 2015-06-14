@@ -21,6 +21,7 @@ function signIn() {
     var password = jQuery.trim(jQuery("#password").val());
     var hashPassword = md5(password);
     var url = ATUP_USER_URI + SIGNIN_PATH + "?user=" + userName + "&password=" + hashPassword;
+
     restGet(url, GET_METHOD, renderSignIn);
 }
 /*RENDER*/
